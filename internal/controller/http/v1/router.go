@@ -1,3 +1,4 @@
+// Пакет настройки маршрутов
 package v1
 
 import (
@@ -17,6 +18,7 @@ func NewRouter(l *slog.Logger, uc *usecase.StaffUC) (*chi.Mux, error) {
 	r.Use(middleware.Recoverer)
 
 	r.Route("/v1", func(r chi.Router) {
+		// Получает сотрудников по id компании. Запрос вида:
 		r.Get("/staff/{companyId}", func(w http.ResponseWriter, r *http.Request) {
 			res, err := uc.GetStaff(
 				uc.Utils.Atoi(chi.URLParam(r, "companyId")),
