@@ -1,0 +1,18 @@
+app:
+  name: "staff"
+  version: '1.0.0'
+
+http: 
+  port: ":8080"
+  waiting_timeout_close: 10   #second
+
+logger:
+  log_env: "dev"
+
+storage:
+  addr: "localhost" #postgres
+  port: "5432"
+  name: "ys-db"
+  user: "ys-user" #"ys-user"
+  pass: "qwerty"
+  

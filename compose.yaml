@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:13.3
+    restart: unless-stopped
+    environment: 
+      POSTGRES_DB: "ys-db"
+      POSTGRES_USER: "ys-user"
+      POSTGRES_PASSWORD: "qwerty"
+    ports:
+      - "5432:5432"
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@domain.com
+      PGADMIN_DEFAULT_PASSWORD: SuperSecret
+      # Hostname/address: postgres
+      # Maintenance Database: ys-db 
