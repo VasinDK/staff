@@ -22,7 +22,7 @@ func New(db *sqlx.DB) *Repository {
 	}
 }
 
-// Получаем сотрудников. В зависимости от departmentId (равен 0 или нет),
+// Получает сотрудников. В зависимости от departmentId (равен 0 или нет),
 // формируется запрос с полями для фильтрации. Возвращается указатель на список сотрудников
 func (r *Repository) GetStaff(companyId, departmentId int) (*[]entity.Staff, error) {
 	rows := &sql.Rows{}
