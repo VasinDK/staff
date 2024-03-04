@@ -1,3 +1,5 @@
+// Пакет для работы с БД. Непосредственно реализация запросов.
+// Методы вызывается в usecase
 package repository
 
 import (
@@ -20,6 +22,8 @@ func New(db *sqlx.DB) *Repository {
 	}
 }
 
+// Получаем сотрудников. В зависимости от departmentId (равен 0 или нет),
+// формируется запрос с полями для фильтрации. Возвращается указатель на список сотрудников
 func (r *Repository) GetStaff(companyId, departmentId int) (*[]entity.Staff, error) {
 	rows := &sql.Rows{}
 	err := fmt.Errorf("")
@@ -68,6 +72,8 @@ func (r *Repository) GetStaff(companyId, departmentId int) (*[]entity.Staff, err
 	return &staffCompany, nil
 }
 
+// Добавляет сотрудников. Получает расширенную структуру StaffExtended.
+// В ответ возвращает id сотрудника и ошибку
 func (r *Repository) AddStaff(staff *entity.StaffExtended) (int, error) {
 	LastInsertId := 0
 
@@ -82,6 +88,7 @@ func (r *Repository) AddStaff(staff *entity.StaffExtended) (int, error) {
 	return LastInsertId, nil
 }
 
+// Удаляет сотрудников по его id. Возвращщает количество затронутых строк и ошибку
 func (r *Repository) DelStaffById(id int) (int64, error) {
 	res, err := r.db.Exec(`DELETE FROM staff WHERE id = $1;`, id)
 	if err != nil {
@@ -96,11 +103,16 @@ func (r *Repository) DelStaffById(id int) (int64, error) {
 	return RowsAffected, nil
 }
 
+// Обновляет поля пришедшие в запросе. Поле id обязательно, остальные опционально.
+// Логика: В запрос приходит map с ключем - поле из json запроса и значением - значение из json запроса.
+// Проходимся по ключам мапы, создаем из них set для изменений в бд, проверяя названия полей.
+// Корректируем в случае необходимости. Так же создаем слайс значений. В той же последовательности.
+// Дальше испольняем запрос подавая строку и значения. Запрос безопасный. Возвращает true/false и ошибку
 func (r *Repository) UpdateStaffById(fields map[string]any) (bool, error) {
-	correctionMap := entity.GetCorrectionMap()
-	sqlData := make([]any, 0)
+	correctionMap := entity.GetCorrectionMap() // используем для проверки и замены названия поля бд
+	sqlData := make([]any, 0)                  // данные запроса
 	sqlData = append(sqlData, fields["id"])
-	sql := []byte("UPDATE staff SET ")
+	sql := []byte("UPDATE staff SET ") // собераем строку запроса
 	count := 0
 
 	for i, v := range fields {

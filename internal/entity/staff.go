@@ -1,5 +1,7 @@
+// Пакет с сущностями приложения
 package entity
 
+// Структура "сотрундик"
 type Staff struct {
 	Id         int        `json:"id,omitempty" db:"id"`
 	Name       string     `json:"name,omitempty" db:"name"`
@@ -10,6 +12,7 @@ type Staff struct {
 	Department Department `json:"department,omitempty" db:"department"`
 }
 
+// Расширенная структура "сотрудник"
 type StaffExtended struct {
 	Staff
 	PassportNumber int `json:"passportNumber,omitempty" db:"passport_number"`
@@ -17,16 +20,19 @@ type StaffExtended struct {
 	DepartmentId   int `json:"departmentId,omitempty" db:"department_id"`
 }
 
+// Структура "паспорт"
 type Passport struct {
 	Type   string `json:"type,omitempty"`
 	Number string `json:"number,omitempty"`
 }
 
+// Структура "департамент"
 type Department struct {
 	Name  string `json:"name,omitempty"`
 	Phone string `json:"phone,omitempty"`
 }
 
+// Возвращает map в которой по ключу с названием поля из JSON можно получить название поля в БД
 func GetCorrectionMap() map[string]string {
 	return map[string]string{
 		"companyId":      "company_id",

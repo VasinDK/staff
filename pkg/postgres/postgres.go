@@ -1,3 +1,4 @@
+// Пакет для создания пула подключения к БД postgresql
 package postgres
 
 import (

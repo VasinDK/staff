@@ -1,3 +1,4 @@
+// Пакет httpserver. Запуск, конфигурация и остановка 
 package httpserver
 
 import (
