@@ -18,7 +18,7 @@ func NewRouter(l *slog.Logger, uc *usecase.StaffUC) (*chi.Mux, error) {
 	r.Use(middleware.Recoverer)
 
 	r.Route("/v1", func(r chi.Router) {
-		// Получает сотрудников по id компании. Запрос вида:
+		// Endpoint получает сотрудников по id компании
 		r.Get("/staff/{companyId}", func(w http.ResponseWriter, r *http.Request) {
 			res, err := uc.GetStaff(
 				uc.Utils.Atoi(chi.URLParam(r, "companyId")),
@@ -33,6 +33,7 @@ func NewRouter(l *slog.Logger, uc *usecase.StaffUC) (*chi.Mux, error) {
 			json.NewEncoder(w).Encode(res)
 		})
 
+		// Endpoint добавляет сотрудника
 		r.Post("/staff", func(w http.ResponseWriter, r *http.Request) {
 			staff := entity.StaffExtended{}
 
@@ -53,6 +54,7 @@ func NewRouter(l *slog.Logger, uc *usecase.StaffUC) (*chi.Mux, error) {
 			json.NewEncoder(w).Encode(id)
 		})
 
+		// Endpoint удаляет сотрудника по id
 		r.Delete("/staff/{deleteId}", func(w http.ResponseWriter, r *http.Request) {
 			res, err := uc.DelStaffById(uc.Utils.Atoi(chi.URLParam(r, "deleteId")))
 			if err != nil {
@@ -69,6 +71,7 @@ func NewRouter(l *slog.Logger, uc *usecase.StaffUC) (*chi.Mux, error) {
 			json.NewEncoder(w).Encode("Запись удалена")
 		})
 
+		// Endpoint обновляет поля сотрудника по id
 		r.Put("/staff", func(w http.ResponseWriter, r *http.Request) {
 			fields := make(map[string]any)
 			json.NewDecoder(r.Body).Decode(&fields)
