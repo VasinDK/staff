@@ -113,8 +113,7 @@ func (r *Repository) UpdateStaffById(fields map[string]any) (bool, error) {
 	// Есть реализация для "database/sql". Она находится в ветке master_sql_update
 	res, err := r.db.NamedExec(`
 	UPDATE staff 
-	SET name=:name, surname=:surname, phone=:phone, company_id=:companyId, passport=:passport,
-		department=:department, passport_number=:passportNumber, passport_type=:passportTypeId,
+	SET name=:name, surname=:surname, phone=:phone, company_id=:companyId, passport_number=:passportNumber, passport_type=:passportTypeId,
 		department_id=:departmentId
 	WHERE id=:id`, fields)
 
