@@ -32,6 +32,7 @@ type Department struct {
 	Phone string `json:"phone,omitempty"`
 }
 
+/*
 // Возвращает map в которой по ключу с названием поля из JSON можно получить название поля в БД
 func GetCorrectionMap() map[string]string {
 	return map[string]string{
@@ -41,3 +42,4 @@ func GetCorrectionMap() map[string]string {
 		"departmentId":   "department_id",
 	}
 }
+*/

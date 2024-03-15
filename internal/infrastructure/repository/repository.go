@@ -109,13 +109,10 @@ func (r *Repository) DelStaffById(id int) (int64, error) {
 // Корректируем в случае необходимости. Так же создаем слайс значений. В той же последовательности.
 // Дальше испольняем запрос подавая строку и значения. Запрос безопасный. Возвращает true/false и ошибку
 func (r *Repository) UpdateStaffById(fields map[string]any) (bool, error) {
-
 	// Есть реализация для "database/sql". Она находится в ветке master_sql_update
-	res, err := r.db.NamedExec(`
-	UPDATE staff 
-	SET name=:name, surname=:surname, phone=:phone, company_id=:companyId, passport_number=:passportNumber, passport_type=:passportTypeId,
-		department_id=:departmentId
-	WHERE id=:id`, fields)
+	res, err := r.db.NamedExec(`UPDATE staff 
+								SET name=:name, surname=:surname, phone=:phone, company_id=:companyId, passport_number=:passportNumber, passport_type=:passportTypeId, department_id=:departmentId
+								WHERE id=:id`, fields)
 
 	if err != nil {
 		return false, errors.Wrap(err, "r.db.Exec-UpdateStaffById")
