@@ -1,7 +1,7 @@
-// Пакет с сущностями приложения
+// entity пакет с сущностями приложения
 package entity
 
-// Структура "сотрундик"
+// Сотрудник
 type Staff struct {
 	Id         int        `json:"id,omitempty" db:"id"`
 	Name       string     `json:"name,omitempty" db:"name"`
@@ -12,7 +12,7 @@ type Staff struct {
 	Department Department `json:"department,omitempty" db:"department"`
 }
 
-// Расширенная структура "сотрудник"
+// Расширенная структура - сотрудник
 type StaffExtended struct {
 	Staff
 	PassportNumber int `json:"passportNumber,omitempty" db:"passport_number"`
@@ -20,13 +20,13 @@ type StaffExtended struct {
 	DepartmentId   int `json:"departmentId,omitempty" db:"department_id"`
 }
 
-// Структура "паспорт"
+// Паспорт
 type Passport struct {
 	Type   string `json:"type,omitempty"`
 	Number string `json:"number,omitempty"`
 }
 
-// Структура "департамент"
+// Департамент
 type Department struct {
 	Name  string `json:"name,omitempty"`
 	Phone string `json:"phone,omitempty"`
