@@ -1,4 +1,4 @@
-// Пакет httpserver. Запуск, конфигурация и остановка 
+// Пакет httpserver. Запуск, конфигурация и остановка
 package httpserver
 
 import (
@@ -8,17 +8,20 @@ import (
 	"time"
 )
 
+// Сервер. Оболочка
 type Server struct {
 	Server          *http.Server
 	Notify          chan error
 	ShutdownTimeout time.Duration
 }
 
+// Start сервера
 func (s *Server) Start() {
 	s.Notify <- s.Server.ListenAndServe()
 	close(s.Notify)
 }
 
+// Stop сервера
 func (s *Server) Stop() {
 	ctx, cancel := context.WithTimeout(context.Background(), s.ShutdownTimeout*time.Second)
 	defer cancel()
@@ -26,6 +29,7 @@ func (s *Server) Stop() {
 	s.Server.Shutdown(ctx)
 }
 
+// New создание экземпляра сервера и запуск
 func New(router http.Handler, cfg *config.Config) *Server {
 	httpServer := &http.Server{
 		Addr:    cfg.HTTP.Port,

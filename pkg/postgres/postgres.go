@@ -10,6 +10,7 @@ import (
 	"github.com/pkg/errors"
 )
 
+// New новый сконфигурированный пул подключений
 func New(cfg config.Storage) (*sqlx.DB, error) {
 	stringConnect := fmt.Sprintf(
 		"user=%s password=%s host=%s port=%s dbname=%s sslmode=disable",
