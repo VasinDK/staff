@@ -1,3 +1,4 @@
+// Staff пакет обработчиков запросов
 package staff
 
 import (

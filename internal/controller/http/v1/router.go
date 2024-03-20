@@ -1,10 +1,12 @@
-// v1 HTTP роутер работающий на фреймворке chi
+// HTTP роутер работающий на фреймворке chi
 package v1
 
 import (
 	"log/slog"
 	"this_module/internal/controller/http/v1/staff"
 	"this_module/internal/usecase"
+
+	httpSwagger "github.com/swaggo/http-swagger/v2"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
@@ -30,6 +32,12 @@ func NewRouter(l *slog.Logger, uc *usecase.StaffUC) (*chi.Mux, error) {
 		// Обновляет поля сотрудника по id
 		r.Put("/staff", staff.Update)
 	})
+
+	// Swagger документация доступная по адресу:
+	// http://localhost:8080/swagger/index.html
+	r.Get("/swagger/*", httpSwagger.Handler(
+		httpSwagger.URL("http://localhost:8080/swagger/doc.json"),
+	))
 
 	return r, nil
 }

@@ -1,0 +1,196 @@
+basePath: /
+definitions:
+  entity.Department:
+    properties:
+      name:
+        example: бухгалтерия
+        type: string
+      phone:
+        example: 22-33-88-888
+        type: string
+    type: object
+  entity.Passport:
+    properties:
+      number:
+        example: "112223"
+        type: string
+      type:
+        example: "2"
+        type: string
+    type: object
+  entity.Staff:
+    properties:
+      companyId:
+        example: 2
+        type: integer
+      department:
+        $ref: '#/definitions/entity.Department'
+      id:
+        type: integer
+      name:
+        example: Кирил
+        type: string
+      passport:
+        $ref: '#/definitions/entity.Passport'
+      phone:
+        example: "877799977"
+        type: string
+      surname:
+        example: Ручников
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: |-
+    Web-Сервис сотрудников. Сервис добавляет сотрудников,
+    удаляет по id, выводит список для указанной компании,список для отдела. Изменяет сотрудников по id
+  title: Документация для проекта staff
+  version: "1.0"
+paths:
+  /v1/staff:
+    post:
+      consumes:
+      - application/json
+      description: Добавляет сотрудника
+      parameters:
+      - description: Сотрудник
+        in: body
+        name: request
+        required: true
+        schema:
+          example: '{"name": "Кирил", "surname": "Ручников", "phone": "877799977",
+            "companyId": 1, "passportNumber": 1122331, "passportTypeId": 2, "departmentId":1}'
+          type: string
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Ок
+          schema:
+            type: string
+        "400":
+          description: Некорректный запрос
+          schema:
+            type: string
+        "404":
+          description: Не найдено
+          schema:
+            type: string
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            type: string
+      summary: Добавляет сотрудника
+      tags:
+      - staff
+    put:
+      consumes:
+      - application/json
+      description: Обновляет данные сотрудника по id
+      parameters:
+      - description: Сотрудник
+        in: body
+        name: request
+        required: true
+        schema:
+          example: '{"id": 3, "passportNumber": 99999}'
+          type: string
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Ок
+          schema:
+            type: string
+        "400":
+          description: Некорректный запрос
+          schema:
+            type: string
+        "404":
+          description: Не найдено
+          schema:
+            type: string
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            type: string
+      summary: Обновляет данные сотрудника
+      tags:
+      - staff
+  /v1/staff/{company_id}:
+    get:
+      consumes:
+      - application/json
+      description: Получаем сотрудника по id компании и id департамента
+      parameters:
+      - default: "1"
+        description: id департамента
+        in: query
+        name: department_id
+        required: true
+        type: string
+      - default: "1"
+        description: id компании
+        in: path
+        name: company_id
+        required: true
+        type: string
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.Staff'
+            type: array
+        "400":
+          description: Некорректный запрос
+          schema:
+            type: string
+        "404":
+          description: Не найдено
+          schema:
+            type: string
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            type: string
+      summary: Получаем сотрудника
+      tags:
+      - staff
+  /v1/staff/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Удаляет сотрудника по id
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Запись удалена
+          schema:
+            type: string
+        "400":
+          description: Некорректный запрос
+          schema:
+            type: string
+        "404":
+          description: Не найдено
+          schema:
+            type: string
+        "500":
+          description: Внутренняя ошибка сервера
+          schema:
+            type: string
+      summary: Удаляет сотрудника
+      tags:
+      - staff
+swagger: "2.0"

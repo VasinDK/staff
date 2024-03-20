@@ -7,6 +7,18 @@ import (
 	"github.com/go-chi/chi"
 )
 
+// Delete godoc
+// @Summary      Удаляет сотрудника
+// @Description  Удаляет сотрудника по id
+// @Tags         staff
+// @Accept       json
+// @Produce      plain
+// @Param		 id		path	  string	true	"id"
+// @Success      200	{string}  string	"Запись удалена"
+// @Failure      400	{string}  string	"Некорректный запрос"
+// @Failure      404	{string}  string	"Не найдено"
+// @Failure      500	{string}  string	"Внутренняя ошибка сервера"
+// @Router       /v1/staff/{id} [delete]
 func (staff *Staff) Delete(w http.ResponseWriter, r *http.Request) {
 	res, err := staff.uc.DelStaffById(staff.uc.Utils.Atoi(chi.URLParam(r, "deleteId")))
 	if err != nil {
