@@ -39,7 +39,7 @@ func (u *StaffUC) AddStaff(staff *entity.StaffExtended) (int, error) {
 	return id, nil
 }
 
-// Получает сотрудника по id компании и id департаментf
+// Получает сотрудника по id компании и id департамент
 func (u *StaffUC) GetStaff(companyId, departmentId int) (*[]entity.Staff, error) {
 	staffCompany, err := u.Repo.GetStaff(companyId, departmentId)
 	if err != nil {

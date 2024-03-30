@@ -8,6 +8,6 @@ INSERT INTO staff(name, surname, phone, company_id, passport_type, passport_numb
 
 -- +goose Down
 -- +goose StatementBegin
-DELETE FROM staff
-    WHERE passport_number IN ('9983232', '11112222', '131313'); 
+-- DELETE FROM staff
+    -- WHERE passport_number IN ('9983232', '11112222', '131313'); 
 -- +goose StatementEnd

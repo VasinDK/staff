@@ -11,6 +11,7 @@ type Staff struct {
 	l  *slog.Logger
 }
 
+// New создает новый пакет обработчиков запросов
 func New(l *slog.Logger, uc *usecase.StaffUC) *Staff {
 	return &Staff{
 		uc,

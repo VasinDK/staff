@@ -8,6 +8,6 @@ INSERT INTO passport_type(name) VALUES
 
 -- +goose Down
 -- +goose StatementBegin
-DELETE FROM passport_type
-    WHERE name IN ('Гражданский паспорт', 'Заграничный паспорт', 'Дипломатический паспорт');
+-- DELETE FROM passport_type
+--     WHERE name IN ('Гражданский паспорт', 'Заграничный паспорт', 'Дипломатический паспорт');
 -- +goose StatementEnd

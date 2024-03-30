@@ -25,6 +25,7 @@ func (staff *Staff) Get(w http.ResponseWriter, r *http.Request) {
 		staff.uc.Utils.Atoi(chi.URLParam(r, "companyId")),
 		staff.uc.Utils.Atoi(r.URL.Query().Get("department_id")),
 	)
+
 	if err != nil {
 		staff.l.Error("Path: ", r.URL.Path, err.Error())
 		http.Error(w, http.StatusText(500), 500)

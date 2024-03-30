@@ -8,6 +8,6 @@ INSERT INTO department(name, phone) VALUES
 
 -- +goose Down
 -- +goose StatementBegin
-DELETE FROM department
-    WHERE name IN ('Административный департамент', 'Департамент бюджетной политики', 'It департамент');
+-- DELETE FROM department
+--     WHERE name IN ('Административный департамент', 'Департамент бюджетной политики', 'It департамент');
 -- +goose StatementEnd

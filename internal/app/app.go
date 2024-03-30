@@ -36,7 +36,7 @@ func Run(cfg *config.Config) {
 	// Репозиторий
 	db, err := postgres.New(cfg.Storage)
 	if err != nil {
-		l.Error("postgres.New", err.Error())
+		l.Error("postgres.New", "error:", err.Error())
 		os.Exit(1)
 	}
 	defer db.Close()

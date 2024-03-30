@@ -15,5 +15,5 @@ CREATE TABLE IF NOT EXISTS staff
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE IF EXISTS staff;
+-- DROP TABLE IF EXISTS staff;
 -- +goose StatementEnd

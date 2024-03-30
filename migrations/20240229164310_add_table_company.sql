@@ -9,5 +9,5 @@ CREATE TABLE IF NOT EXISTS company
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE IF EXISTS company;
+-- DROP TABLE IF EXISTS company;
 -- +goose StatementEnd

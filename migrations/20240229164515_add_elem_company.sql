@@ -8,6 +8,6 @@ INSERT INTO company(name) VALUES
 
 -- +goose Down
 -- +goose StatementBegin
-DELETE FROM company
-    WHERE name IN ('ООО Дружок', 'АО Ракета', 'ЗАО Радуга');
+-- DELETE FROM company
+--     WHERE name IN ('ООО Дружок', 'АО Ракета', 'ЗАО Радуга');
 -- +goose StatementEnd

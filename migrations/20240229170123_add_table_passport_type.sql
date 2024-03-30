@@ -9,5 +9,5 @@ CREATE TABLE IF NOT EXISTS passport_type
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE IF EXISTS passport_type;
+-- DROP TABLE IF EXISTS passport_type;
 -- +goose StatementEnd

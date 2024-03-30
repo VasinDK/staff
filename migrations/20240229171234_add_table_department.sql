@@ -10,5 +10,5 @@ CREATE TABLE IF NOT EXISTS department
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE IF EXISTS department;
+-- DROP TABLE IF EXISTS department;
 -- +goose StatementEnd
