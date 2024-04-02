@@ -1,24 +1,25 @@
 package integration_test
 
 import (
-	"fmt"
-	"io"
 	"log"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 	"this_module/config"
-	"this_module/internal/controller/http/v1/staff"
+	v1 "this_module/internal/controller/http/v1"
 	"this_module/internal/infrastructure/repository"
 	"this_module/internal/pkg/utils"
 	"this_module/internal/usecase"
 	"this_module/pkg/logger"
 	"this_module/pkg/postgres"
+
+	"github.com/go-chi/chi"
 )
 
-var stf staff.Staff
+var stf *chi.Mux
 
 func TestMain(m *testing.M) {
 	// меняем текущий каталог на корневой
@@ -39,12 +40,16 @@ func TestMain(m *testing.M) {
 		os.Exit(1)
 	}
 
-	uc := usecase.New(
+	staffUseCase := usecase.New(
 		utils.New(),
 		repository.New(db),
 	)
 
-	stf = *staff.New(l, uc)
+	stf, err = v1.NewRouter(l, staffUseCase)
+	if err != nil {
+		l.Error(err.Error())
+		os.Exit(1)
+	}
 
 	res := m.Run()
 
@@ -55,16 +60,51 @@ func TestMain(m *testing.M) {
 
 func TestGet(t *testing.T) {
 	recorder := httptest.NewRecorder()
-	req := httptest.NewRequest(http.MethodGet, "/v1/staff/1", nil)
 
-	stf.Get(recorder, req)
+	cases := []struct {
+		Address      string
+		ResultStatus int
+		Result       string
+	}{
+		{
+			Address:      "/v1/staff/1",
+			ResultStatus: http.StatusOK,
+			Result:       `[{"id":1,"`,
+		},
+		{
+			Address:      "/v1/staff/10000",
+			ResultStatus: http.StatusOK,
+			Result:       "[]",
+		},
+		{
+			Address:      "/v1/staff/0",
+			ResultStatus: http.StatusOK,
+			Result:       "[]",
+		},
+		{
+			Address:      "/v1/staff/1?department_id=1",
+			ResultStatus: http.StatusOK,
+			Result:       `[{"id":1,"`,
+		},
+	}
 
-	resp := recorder.Result()
-	body, _ := io.ReadAll(resp.Body)
-	fmt.Println(`body: `, body)
+	for _, cs := range cases {
 
-	if recorder.Code != http.StatusOK {
-		t.Errorf("Get. Recorder.Code: %v", recorder.Code)
+		req := httptest.NewRequest(http.MethodGet, cs.Address, nil)
+
+		stf.ServeHTTP(recorder, req)
+
+		if recorder.Code != cs.ResultStatus {
+			t.Errorf("Address: %v, Code: %v", cs.Address, recorder.Code)
+		}
+
+		if cs.Result == "" {
+			return
+		}
+
+		if contain := strings.Contains(recorder.Body.String(), cs.Result); contain != true {
+			t.Errorf("Address: %v, Body: %v", cs.Address, recorder.Body.String())
+		}
 	}
 
 }
